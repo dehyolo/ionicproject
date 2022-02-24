@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +9,11 @@ import { AlertController } from '@ionic/angular';
 })
 export class HomePage {
 
-  constructor(private alertCtrl: AlertController) {}
+  tasks: any[] = [];
 
-  async showAdd(){
+  constructor(private alertCtrl: AlertController, private toastCrtl: ToastController) { }
+
+  async showAdd() {
     const alert = await this.alertCtrl.create({
       header: 'O que deseja fazer?',
       inputs: [
@@ -28,17 +31,32 @@ export class HomePage {
           handler: () => {
             console.log('Confirm Cancel');
           }
-        }, 
+        },
         {
           text: 'Confirmar',
-          handler: () => {
+          handler: (form) => {
             console.log('Confirm Ok');
+            this.add(form.taskToDo);
           }
         }
       ]
     });
 
     await alert.present();
+  }
+
+  async add(taskToDo: string) {
+    if (taskToDo.trim().length < 1) {
+      const toast = await this.toastCrtl.create({
+        message : 'Informe o que deseja fazer!',
+        duration : 2000,
+        position : 'middle',
+        color : 'danger',
+      });
+      toast.present();
+    }
+    let task = {name : taskToDo, done: false}
+    this.tasks.push(task);
   }
 
 }
