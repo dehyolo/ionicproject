@@ -7,8 +7,8 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list class="animate__animated animate__bounceInUp">
-    <ion-item-sliding class="listItem" *ngFor="let task of tasks">
+  <ion-list>
+    <ion-item-sliding class="listItem animate__animated animate__bounceInRight" *ngFor="let task of tasks">
       
       <ion-item (click)="openActions(task)">
         <ion-label *ngIf="!task.done">{{task.name}}</ion-label>
