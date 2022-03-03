@@ -117,7 +117,7 @@ export class HomePage {
     }
     console.log(nTagList);
     this.tagList=nTagList;
-    
+    this.createVis('MOSTRAR TODAS');  
 
 
   }
