@@ -1,5 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
-import { ActionSheetController, AlertController } from '@ionic/angular';
+import { ActionSheetController, AlertController, MenuController } from '@ionic/angular';
 import { UtilService } from '../services/util.service';
 
 @Component({
@@ -9,11 +9,14 @@ import { UtilService } from '../services/util.service';
 })
 export class HomePage {
 
-  tasks: any[] = [];
+  tasks: any[] = []
 
-  constructor(private alertCtrl: AlertController, 
-    private utilService: UtilService, 
-    private actionSheetCrtl: ActionSheetController) {
+  tagList: any[] = []
+
+  constructor(private alertCtrl: AlertController,
+    private utilService: UtilService,
+    private actionSheetCrtl: ActionSheetController,
+    private menu: MenuController) {
     let tasksJSON = localStorage.getItem('tasksDb');
 
     if (tasksJSON != null) {
@@ -21,6 +24,11 @@ export class HomePage {
     }
 
     this.updateLocalStorage();
+  }
+
+  openFirst() {
+    this.menu.enable(true, 'first');
+    this.menu.open('first');
   }
 
   async showAdd() {
@@ -60,13 +68,13 @@ export class HomePage {
     await alert.present();
   }
 
-  async add(taskToDo: string, tags : string) {
+  async add(taskToDo: string, tags: string) {
     if (taskToDo.trim().length < 1) {
       this.utilService.showToast('Informe o que deseja fazer!', 2000);
       return;
     }
-    for(let i=0;i<this.tasks.length;i++){
-      if(taskToDo.trim()==this.tasks[i].name){
+    for (let i = 0; i < this.tasks.length; i++) {
+      if (taskToDo.trim() == this.tasks[i].name) {
         this.utilService.showToast('Essa tafera já está registrada!');
         return;
       }
@@ -83,6 +91,31 @@ export class HomePage {
 
   updateLocalStorage() {
     localStorage.setItem('tasksDb', JSON.stringify(this.tasks));
+    this.tagList = [];
+    for (let i = 0; i < this.tasks.length; i++) {
+      for (let j = 0; j < this.tasks[i].tags.length; j++) {
+        this.tagList.push(this.tasks[i].tags[j]);
+      }
+    }
+    let nTagList: any[] = [];
+    let error;
+    console.log(this.tagList);
+    for(let i=0;i<this.tagList.length;i++){
+      error=false;
+      for(let j=i+1;j<this.tagList.length;j++){
+        if(this.tagList[i]==this.tagList[j]){
+          error=true;
+        }
+      }
+      if(!error){
+        nTagList.push(this.tagList[i]);
+      }
+    }
+    console.log(nTagList);
+    this.tagList=nTagList;
+    
+
+
   }
 
   async openActions(task: any) {
@@ -106,17 +139,17 @@ export class HomePage {
     await actionSheet.present();
   }
 
-  doneSwi(task: any){
+  doneSwi(task: any) {
     task.done = !task.done;
     this.updateLocalStorage();
   }
 
   removeTask(task: any) {
     const elementList = document.querySelectorAll('.listItem');
-    let element : Element;
-    for(let i=0;i<elementList.length;i++){
-      if(elementList[i].children[0].children[0].children[0].textContent==task.name){
-        element=elementList[i];
+    let element: Element;
+    for (let i = 0; i < elementList.length; i++) {
+      if (elementList[i].children[0].children[0].children[0].textContent == task.name) {
+        element = elementList[i];
       }
     }
     this.utilService.showLoading();
@@ -129,12 +162,12 @@ export class HomePage {
     this.utilService.hideLoading();
   }
 
-  async showRemCon(task: any){
+  async showRemCon(task: any) {
     const alert = await this.alertCtrl.create({
       header: 'Excluir tarefa?',
       subHeader: 'Tem deseja que deseja excluir essa tarefa?',
       message: 'Essa ação não pode ser desfeita!',
-      buttons:[
+      buttons: [
         {
           text: 'Cancelar',
           role: 'cancel',
@@ -154,5 +187,5 @@ export class HomePage {
     })
     await alert.present();
   }
-  
+
 }

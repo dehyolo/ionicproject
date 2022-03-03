@@ -1,8 +1,29 @@
+<ion-menu side="start" menuId="first" contentId="main">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>TAGS</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item *ngFor="let tag of tagList">
+        <ion-label color="primary">#{{tag}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-router-outlet id="main"></ion-router-outlet>
+
+
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-title class="ion-text-center">
-      TODO
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      toDoList
     </ion-title>
+    
   </ion-toolbar>
 </ion-header>
 
@@ -14,8 +35,8 @@
 
         <ion-label class="ion-text-wrap">
           <ion-text>
-            <h2 style="font-size: 20px;" *ngIf="!task.done">{{task.name}}</h2>
-            <h2 style="font-size: 20px;" *ngIf="task.done"><del>{{task.name}}</del></h2>
+            <h2 *ngIf="!task.done">{{task.name}}</h2>
+            <h2 *ngIf="task.done"><del>{{task.name}}</del></h2>
           </ion-text>
           <ion-text color="primary">
             <span *ngFor="let tag of task.tags">#{{tag}} </span>
