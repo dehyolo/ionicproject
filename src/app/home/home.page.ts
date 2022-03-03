@@ -9,9 +9,11 @@ import { UtilService } from '../services/util.service';
 })
 export class HomePage {
 
-  tasks: any[] = []
+  tasks: any[] = [];
 
-  tagList: any[] = []
+  tagList: any[] = [];
+
+  visTasks: any[] = this.tasks;
 
   constructor(private alertCtrl: AlertController,
     private utilService: UtilService,
@@ -22,6 +24,8 @@ export class HomePage {
     if (tasksJSON != null) {
       this.tasks = JSON.parse(tasksJSON);
     }
+
+    this.createVis('MOSTRAR TODAS');
 
     this.updateLocalStorage();
   }
@@ -186,6 +190,21 @@ export class HomePage {
       ]
     })
     await alert.present();
+  }
+
+  createVis(tag: string){
+    this.visTasks = []
+    if(tag=='MOSTRAR TODAS'){
+      this.visTasks = this.tasks;
+    }else{
+      for(let i=0;i<this.tasks.length;i++){
+        for(let j=0;j<this.tasks[i].tags.length;j++){
+          if(tag==this.tasks[i].tags[j]){
+            this.visTasks.push(this.tasks[i]);
+          }
+        }
+      }
+    }
   }
 
 }

@@ -5,11 +5,11 @@
     </ion-toolbar>
   </ion-header>
   <ion-content>
-    <ion-list>
-      <ion-item *ngFor="let tag of tagList">
-        <ion-label color="primary">#{{tag}}</ion-label>
-      </ion-item>
-    </ion-list>
+    
+    <ion-button expand="block" color="primary" (click)="createVis('MOSTRAR TODAS')">MOSTRAR TODAS</ion-button>
+    <ion-button *ngFor="let tag of tagList" expand="block" color="primary" (click)="createVis(tag)">#{{tag}}</ion-button>
+      
+    
   </ion-content>
 </ion-menu>
 <ion-router-outlet id="main"></ion-router-outlet>
@@ -29,7 +29,7 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-item-sliding class="listItem animate__animated animate__bounceInRight" *ngFor="let task of tasks">
+    <ion-item-sliding class="listItem animate__animated animate__bounceInRight" *ngFor="let task of visTasks">
       
       <ion-item>
 
