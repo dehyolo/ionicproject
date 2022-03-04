@@ -43,8 +43,8 @@
           </ion-text>
         </ion-label>
 
-        <ion-checkbox *ngIf="!task.done" slot="start" color="primary" (click)="doneSwi(task)"></ion-checkbox>
-        <ion-checkbox *ngIf="task.done" checked="true" slot="start" color="primary" (click)="doneSwi(task)"></ion-checkbox>
+        <ion-checkbox *ngIf="!task.done" slot="start" color="primary" (click)="doneSwitch(task)"></ion-checkbox>
+        <ion-checkbox *ngIf="task.done" checked="true" slot="start" color="primary" (click)="doneSwitch(task)"></ion-checkbox>
       </ion-item>
       
       <ion-item-options side="end">

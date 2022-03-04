@@ -96,30 +96,14 @@ export class HomePage {
   updateLocalStorage() {
     localStorage.setItem('tasksDb', JSON.stringify(this.tasks));
     this.tagList = [];
-    for (let i = 0; i < this.tasks.length; i++) {
-      for (let j = 0; j < this.tasks[i].tags.length; j++) {
-        this.tagList.push(this.tasks[i].tags[j]);
-      }
-    }
-    let nTagList: any[] = [];
-    let error;
-    console.log(this.tagList);
-    for(let i=0;i<this.tagList.length;i++){
-      error=false;
-      for(let j=i+1;j<this.tagList.length;j++){
-        if(this.tagList[i]==this.tagList[j]){
-          error=true;
-        }
-      }
-      if(!error){
-        nTagList.push(this.tagList[i]);
-      }
-    }
-    console.log(nTagList);
-    this.tagList=nTagList;
+    
+    this.tasks.forEach((task)=>{
+      this.tagList.push(...task.tags);
+    })
+
+    this.tagList = [...new Set(this.tagList)]
+  
     this.createVis('MOSTRAR TODAS');  
-
-
   }
 
   async openActions(task: any) {
@@ -129,7 +113,7 @@ export class HomePage {
         text: task.done ? 'Tarefa não concluída' : 'Tarefa concluída',
         icon: task.done ? 'radio-button-off' : 'checkmark-circle',
         handler: () => {
-          this.doneSwi(task);
+          this.doneSwitch(task);
         }
       }, {
         text: 'Cancelar',
@@ -143,7 +127,7 @@ export class HomePage {
     await actionSheet.present();
   }
 
-  doneSwi(task: any) {
+  doneSwitch(task: any) {
     task.done = !task.done;
     this.updateLocalStorage();
   }
