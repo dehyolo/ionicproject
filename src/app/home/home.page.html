@@ -1,13 +1,13 @@
 <ion-menu side="start" menuId="first" contentId="main">
   <ion-header>
-    <ion-toolbar color="primary">
+    <ion-toolbar color="tertiary">
       <ion-title>TAGS</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content>
     
-    <ion-button expand="block" color="primary" (click)="createVis('MOSTRAR TODAS')">MOSTRAR TODAS</ion-button>
-    <ion-button *ngFor="let tag of tagList" expand="block" color="primary" (click)="createVis(tag)">#{{tag}}</ion-button>
+    <ion-button expand="block" color="secondary" (click)="createVis('MOSTRAR TODAS')">MOSTRAR TODAS</ion-button>
+    <ion-button *ngFor="let tag of tagList" expand="block" color="secondary" (click)="createVis(tag)">#{{tag}}</ion-button>
       
     
   </ion-content>
